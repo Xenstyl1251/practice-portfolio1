@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div
-      className={`${theme} dark:bg-black h-screen flex flex-col items-center justify-center gap-10 p-10`}
+      className={`${theme} dark:bg-black min-h-screen flex flex-col items-center justify-center gap-10 p-10  scroll-smooth `}
     >
       {/* Theme Toggle Button */}
       <button
@@ -73,6 +73,26 @@ function App() {
       {/* Skills Modal */}
       {/* --------------------------- */}
       {showSkills && <Skills onClose={() => setShowSkills(false)} />}
+
+      {/* Projects Section */}
+      <section className=" min-h-screen h-screen flex flex-col items-center justify-center text-gray-900">
+        <h2 className="text-4xl font-bold mb-10 text-white">MY PROJECTS</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-10">
+          {/* Example Project Cards */}
+          <div className="bg-white shadow-md p-6 rounded-md">
+            <h3 className="text-xl font-semibold mb-2 ">Project 1</h3>
+            <p>Short description of Project 1.</p>
+          </div>
+          <div className="bg-white shadow-md p-6 rounded-md">
+            <h3 className="text-xl font-semibold mb-2">Project 2</h3>
+            <p>Short description of Project 2.</p>
+          </div>
+          <div className="bg-white shadow-md p-6 rounded-md">
+            <h3 className="text-xl font-semibold mb-2">Project 3</h3>
+            <p>Short description of Project 3.</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
