@@ -1,21 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./components/Button";
 import ProfilePic from "./components/ProfilePic";
 import Skills from "./components/Skills";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
+import Work from "./components/Work";
+import { scroller } from "react-scroll";
 
 function App() {
   const [theme, setTheme] = useState("dark");
   const [showSkills, setShowSkills] = useState(false);
 
+  // ✅ Handle Tailwind dark mode
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
   return (
-    <div
-      className={`${theme} dark:bg-black min-h-screen flex flex-col items-center justify-center gap-10 p-10  scroll-smooth `}
-    >
-      {/* Theme Toggle Button */}
+    <div className="dark:bg-black min-h-screen flex flex-col items-center justify-start gap-10 px-10 pt-24 pb-10 scroll-smooth">
+      {/* ---------------------------- */}
+      {/* Navbar */}
+      {/* ---------------------------- */}
+      <nav className="fixed top-0 w-full bg-black/70 backdrop-blur-md text-white px-10 py-4 flex justify-between items-center shadow-md z-50">
+        <h1 className="text-xl font-bold">pjdev</h1>
+
+        <ul className="flex gap-6 mr-16">
+          <li>
+            <button
+              onClick={() =>
+                scroller.scrollTo("work", {
+                  duration: 800,
+                  smooth: true,
+                  offset: -96, // adjusts for fixed navbar
+                })
+              }
+              className="hover:text-blue-400 active:scale-95 transition-all duration-150"
+            >
+              home
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() =>
+                scroller.scrollTo("work", {
+                  duration: 800,
+                  smooth: true,
+                  offset: -96, // adjusts for fixed navbar
+                })
+              }
+              className="hover:text-blue-400 active:scale-95 transition-all duration-150"
+            >
+              Work
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() =>
+                scroller.scrollTo("work", {
+                  duration: 800,
+                  smooth: true,
+                  offset: -96, // adjusts for fixed navbar
+                })
+              }
+              className="hover:text-blue-400 active:scale-95 transition-all duration-150"
+            >
+              contact
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {/* ---------------------------- */}
+      {/* Dark Mode Toggle Button */}
+      {/* ---------------------------- */}
       <button
-        className="absolute top-10 right-10 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-        onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+        className="fixed top-4 right-6 z-[60] p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
         {theme === "dark" ? (
           <SunIcon className="w-6 h-6 text-yellow-400 transition-all duration-500 rotate-0 dark:rotate-180" />
@@ -24,10 +87,13 @@ function App() {
         )}
       </button>
 
+      {/* ---------------------------- */}
+      {/* Main Content */}
+      {/* ---------------------------- */}
       <div
         className={`flex flex-col items-center gap-10 transition-all duration-300 ${
           showSkills ? "blur-sm" : ""
-        } /* ✅ Blur applied when showSkills is true */`}
+        }`}
       >
         <ProfilePic />
 
@@ -58,12 +124,11 @@ function App() {
 
           <div className="flex gap-4">
             <Button title="Skills" onClick={() => setShowSkills(true)} />
-
             <Button
               title="Socials"
-              onClick={() => {
-                window.open("https://linktr.ee/Paul.dev", "_blank");
-              }}
+              onClick={() =>
+                window.open("https://linktr.ee/Paul.dev", "_blank")
+              }
             />
           </div>
         </div>
@@ -74,24 +139,10 @@ function App() {
       {/* --------------------------- */}
       {showSkills && <Skills onClose={() => setShowSkills(false)} />}
 
-      {/* Projects Section */}
-      <section className=" min-h-screen h-screen flex flex-col items-center justify-center text-gray-900">
-        <h2 className="text-4xl font-bold mb-10 text-white">MY PROJECTS</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-10">
-          {/* Example Project Cards */}
-          <div className="bg-white shadow-md p-6 rounded-md">
-            <h3 className="text-xl font-semibold mb-2 ">Project 1</h3>
-            <p>Short description of Project 1.</p>
-          </div>
-          <div className="bg-white shadow-md p-6 rounded-md">
-            <h3 className="text-xl font-semibold mb-2">Project 2</h3>
-            <p>Short description of Project 2.</p>
-          </div>
-          <div className="bg-white shadow-md p-6 rounded-md">
-            <h3 className="text-xl font-semibold mb-2">Project 3</h3>
-            <p>Short description of Project 3.</p>
-          </div>
-        </div>
+      {/* Work Section */}
+
+      <section id="work" className="w-full scroll-mt-24">
+        <Work />
       </section>
     </div>
   );
