@@ -3,8 +3,9 @@ import Button from "./components/Button";
 import ProfilePic from "./components/ProfilePic";
 import Skills from "./components/Skills";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import Work from "./components/Work";
+import Work from "./components/ProjectCard";
 import { scroller } from "react-scroll";
+import ProjectCard from "./components/ProjectCard";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -31,7 +32,7 @@ function App() {
           <li>
             <button
               onClick={() =>
-                scroller.scrollTo("work", {
+                scroller.scrollTo("home", {
                   duration: 800,
                   smooth: true,
                   offset: -96, // adjusts for fixed navbar
@@ -59,7 +60,7 @@ function App() {
           <li>
             <button
               onClick={() =>
-                scroller.scrollTo("work", {
+                scroller.scrollTo("home", {
                   duration: 800,
                   smooth: true,
                   offset: -96, // adjusts for fixed navbar
@@ -91,6 +92,7 @@ function App() {
       {/* Main Content */}
       {/* ---------------------------- */}
       <div
+        id="home"
         className={`flex flex-col items-center gap-10 transition-all duration-300 ${
           showSkills ? "blur-sm" : ""
         }`}
@@ -140,10 +142,23 @@ function App() {
       {showSkills && <Skills onClose={() => setShowSkills(false)} />}
 
       {/* Work Section */}
+      <div id="work">
+        <ProjectCard
+          id="work"
+          title="Project 1"
+          description="Short description of Project 1"
+        />
 
-      <section id="work" className="w-full scroll-mt-24">
-        <Work />
-      </section>
+        <ProjectCard
+          title="Project 2"
+          description="Short description of Project 2"
+        />
+
+        <ProjectCard
+          title="Project 3"
+          description="Short description of Project 3"
+        />
+      </div>
     </div>
   );
 }
