@@ -82,4 +82,5 @@ export default function Skills({ onClose }) {
       </section>
     </div>
   );
+  2;
 }

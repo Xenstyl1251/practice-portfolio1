@@ -3,14 +3,29 @@ import Button from "./components/Button";
 import ProfilePic from "./components/ProfilePic";
 import Skills from "./components/Skills";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import Work from "./components/ProjectCard";
 import { scroller } from "react-scroll";
 import ProjectCard from "./components/ProjectCard";
 
 function App() {
   const [theme, setTheme] = useState("dark");
   const [showSkills, setShowSkills] = useState(false);
-
+  const projects = [
+    {
+      title: "Project 1",
+      description: "Short description of Project 1",
+      image: "/images/project1.png",
+    },
+    {
+      title: "Project 2",
+      description: "Short description of Project 2",
+      image: "/images/project2.png",
+    },
+    {
+      title: "Project 3",
+      description: "Short description of Project 3",
+      image: "/images/project3.png",
+    },
+  ];
   // ✅ Handle Tailwind dark mode
   useEffect(() => {
     if (theme === "dark") {
@@ -134,31 +149,28 @@ function App() {
             />
           </div>
         </div>
-      </div>
 
+        {/* project section return */}
+
+        <div
+          id="work"
+          className="flex flex-row gap-6 mt-20 overflow-x-auto px-4 py-2"
+        >
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={index}
+              title={project.title}
+              description={project.description}
+              image={project.image}
+              onClick={() => console.log(project.title)}
+            />
+          ))}
+        </div>
+      </div>
       {/* --------------------------- */}
       {/* Skills Modal */}
       {/* --------------------------- */}
       {showSkills && <Skills onClose={() => setShowSkills(false)} />}
-
-      {/* Work Section */}
-      <div id="work">
-        <ProjectCard
-          id="work"
-          title="Project 1"
-          description="Short description of Project 1"
-        />
-
-        <ProjectCard
-          title="Project 2"
-          description="Short description of Project 2"
-        />
-
-        <ProjectCard
-          title="Project 3"
-          description="Short description of Project 3"
-        />
-      </div>
     </div>
   );
 }
