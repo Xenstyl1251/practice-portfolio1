@@ -21,7 +21,7 @@ export default function Skills({ onClose }) {
       onClick={onClose} // close modal when clicking outside
     >
       <section
-        className="relative p-6 space-y-6 bg-gray-800 rounded-xl md:grid md:grid-cols-2 md:gap-4 sm:space-y-0"
+        className="relative p-6 space-y-6 bg-gray-300 rounded-xl md:grid md:grid-cols-2 md:gap-4 sm:space-y-0"
         onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
       >
         {/* Close Button */}
@@ -38,7 +38,7 @@ export default function Skills({ onClose }) {
             <button
               key={skill.title}
               onClick={() => setCurrentSkill(skill)}
-              className={`px-4 py-2 text-xl text-gray-100 transition bg-blue-600 rounded-md h-14 w-44 hover:bg-blue-700 ${
+              className={`px-4 py-2 text-xl text-gray-100 transition bg-gray-800 rounded-md h-14 w-44 hover:bg-blue-700 ${
                 currentSkill.title === skill.title
                   ? "font-bold ring-2 ring-gray-100"
                   : ""
@@ -73,7 +73,7 @@ export default function Skills({ onClose }) {
               strokeDashoffset={
                 circumference - (currentSkill.percent / 100) * circumference
               }
-              className="text-blue-500"
+              className="text-blue-700"
             />
           </svg>
 

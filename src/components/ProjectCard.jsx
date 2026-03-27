@@ -4,37 +4,26 @@ export default function ProjectCard({ title, description, image, onClick }) {
       onClick={onClick}
       className="
         group flex flex-col
-    max-w-xs
-    bg-white/80 dark:bg-white/5 backdrop-blur-md
-    border border-white/20 dark:border-white/10
-    rounded-2xl shadow-md hover:shadow-xl
-    transition-all duration-300 hover:-translate-y-2
-    cursor-pointer overflow-hidden
+        flex-none w-80
+        bg-white/80 dark:bg-white/5 backdrop-blur-md
+        border border-white/20 dark:border-white/10
+        rounded-2xl shadow-md hover:shadow-xl
+        transition-all duration-300 hover:-translate-y-2
+        cursor-pointer overflow-hidden
       "
     >
-      {/* Image */}
-      <img
-        src={image}
-        alt={title}
-        className="
-          w-full h-64
-          object-cover
-        "
-      />
+      <img src={image} alt={title} className="w-full h-64 object-cover" />
 
-      {/* Content */}
       <div className="flex flex-col justify-between p-5">
         <div>
           <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
             {title}
           </h3>
-
           <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
             {description}
           </p>
         </div>
 
-        {/* Button */}
         <button
           className="
             mt-4 inline-flex items-center gap-2

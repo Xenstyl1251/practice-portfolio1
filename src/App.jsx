@@ -1,14 +1,18 @@
-import { useState, useEffect } from "react";
 import Button from "./components/Button";
 import ProfilePic from "./components/ProfilePic";
 import Skills from "./components/Skills";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { scroller } from "react-scroll";
+import { useState, useEffect, useRef } from "react";
 import ProjectCard from "./components/ProjectCard";
 
 function App() {
+  // ---------- STATE ----------
   const [theme, setTheme] = useState("dark");
   const [showSkills, setShowSkills] = useState(false);
+  const [isHovered, setIsHovered] = useState(false); // track hover to pause scroll
+
+  // ---------- PROJECT DATA ----------
   const projects = [
     {
       title: "Project 1",
@@ -26,15 +30,40 @@ function App() {
       image: "/images/project3.png",
     },
   ];
-  // ✅ Handle Tailwind dark mode
+
+  // ---------- FUNCTIONS ----------
+  // duplicate projects for smooth infinite scroll
+  const loopedProjects = [...projects, ...projects];
+
+  // ---------- REF ----------
+  const scrollRef = useRef(); // attach this to the div you want to auto-scroll
+
+  // ---------- AUTO-SCROLL FUNCTION ----------
   useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    let animationId;
+    const scroll = () => {
+      if (scrollRef.current && !isHovered) {
+        scrollRef.current.scrollLeft += 1; // adjust speed
+        if (
+          scrollRef.current.scrollLeft >=
+          scrollRef.current.scrollWidth - scrollRef.current.clientWidth
+        ) {
+          scrollRef.current.scrollLeft = 0; // loop back
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+    scroll();
+    return () => cancelAnimationFrame(animationId);
+  }, [isHovered]);
+
+  // ---------- TAILWIND DARK MODE ----------
+  useEffect(() => {
+    if (theme === "dark") document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
   }, [theme]);
 
+  // ---------- RETURN UI ----------
   return (
     <div className="dark:bg-black min-h-screen flex flex-col items-center justify-start gap-10 px-10 pt-24 pb-10 scroll-smooth">
       {/* ---------------------------- */}
@@ -42,7 +71,6 @@ function App() {
       {/* ---------------------------- */}
       <nav className="fixed top-0 w-full bg-black/70 backdrop-blur-md text-white px-10 py-4 flex justify-between items-center shadow-md z-50">
         <h1 className="text-xl font-bold">pjdev</h1>
-
         <ul className="flex gap-6 mr-16">
           <li>
             <button
@@ -50,7 +78,7 @@ function App() {
                 scroller.scrollTo("home", {
                   duration: 800,
                   smooth: true,
-                  offset: -96, // adjusts for fixed navbar
+                  offset: -96,
                 })
               }
               className="hover:text-blue-400 active:scale-95 transition-all duration-150"
@@ -64,7 +92,7 @@ function App() {
                 scroller.scrollTo("work", {
                   duration: 800,
                   smooth: true,
-                  offset: -96, // adjusts for fixed navbar
+                  offset: -96,
                 })
               }
               className="hover:text-blue-400 active:scale-95 transition-all duration-150"
@@ -78,7 +106,7 @@ function App() {
                 scroller.scrollTo("home", {
                   duration: 800,
                   smooth: true,
-                  offset: -96, // adjusts for fixed navbar
+                  offset: -96,
                 })
               }
               className="hover:text-blue-400 active:scale-95 transition-all duration-150"
@@ -138,7 +166,6 @@ function App() {
           <div className="uppercase font-semibold dark:text-gray-400">
             more about me
           </div>
-
           <div className="flex gap-4">
             <Button title="Skills" onClick={() => setShowSkills(true)} />
             <Button
@@ -150,26 +177,19 @@ function App() {
           </div>
         </div>
 
-        {/* project section return */}
-
+        {/* Auto-Scrolling Carousel */}
         <div
-          id="work"
-          className="flex flex-row gap-6 mt-20 overflow-x-auto px-4 py-2"
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto w-full max-w-screen-xl"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={index}
-              title={project.title}
-              description={project.description}
-              image={project.image}
-              onClick={() => console.log(project.title)}
-            />
+          {loopedProjects.map((project, index) => (
+            <ProjectCard key={index} {...project} />
           ))}
         </div>
       </div>
-      {/* --------------------------- */}
       {/* Skills Modal */}
-      {/* --------------------------- */}
       {showSkills && <Skills onClose={() => setShowSkills(false)} />}
     </div>
   );
